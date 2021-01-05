@@ -11,9 +11,9 @@
 // RMW NOW HAS CUSTOM COLUMN OFFSET
 void btnLEFT() {
   if (currentBtn != 0 && currentApp == 0) {    // As of now it unselects, changes the cursor position, then selects the updated position - May allow avoiding the need for an old state
-    RMW(pageTable[currentBtn][0], currentBtn, 0); // To be unselected RMW(wordLength, tobeselected); - 1
+    RMW(pageTable[currentBtn], currentBtn, 0); // To be unselected RMW(wordLength, tobeselected); - 1
     currentBtn--;
-    RMW(pageTable[currentBtn][0], currentBtn, 0); // To be selected - 0. LAST number is column address offset
+    RMW(pageTable[currentBtn], currentBtn, 0); // To be selected - 0. LAST number is column address offset
   }
 }
 
@@ -25,9 +25,9 @@ void btnMIDDLE() {                             // ENTER SELECTED(currentBtn) IF 
 
 void btnRIGHT() {
   if (currentBtn != 7 && currentApp == 0) {    // Only use this kind of navigation for the home menu, could add others that follow the same nav method
-    RMW(pageTable[currentBtn][0], currentBtn, 0); // Temporary , the LAST page + size should be saved somewhere and then put here so its unselected - 0
+    RMW(pageTable[currentBtn], currentBtn, 0); // Temporary , the LAST page + size should be saved somewhere and then put here so its unselected - 0
     currentBtn++;
-    RMW(pageTable[currentBtn][0], currentBtn, 0); // Temporary , the NEW page + size should be saved somewhere and then put here so its unselected - 1
+    RMW(pageTable[currentBtn], currentBtn, 0); // Temporary , the NEW page + size should be saved somewhere and then put here so its unselected - 1
   }
   // Each page has its own nav system
 }
@@ -38,9 +38,9 @@ void setup() {
   pinMode(BTNMIDDLE, INPUT);
   pinMode(BTNLEFT, INPUT);
   pinMode(BTNRIGHT, INPUT);
-  attachInterrupt (digitalPinToInterrupt (BTNLEFT), btnLEFT, HIGH);
-  attachInterrupt (digitalPinToInterrupt (BTNMIDDLE), btnMIDDLE, HIGH);
-  attachInterrupt (digitalPinToInterrupt (BTNRIGHT), btnRIGHT, HIGH);
+  attachInterrupt (digitalPinToInterrupt (BTNLEFT), btnLEFT, RISING);     // Change RISING to HIGH for "hold to scroll"
+  attachInterrupt (digitalPinToInterrupt (BTNMIDDLE), btnMIDDLE, RISING);
+  attachInterrupt (digitalPinToInterrupt (BTNRIGHT), btnRIGHT, RISING);
 
   // INITIALIZE DISPLAY
   singleC_OP(0xae);                  // Command to turn display OFF
@@ -74,13 +74,7 @@ void setup() {
   homePage();                        // Draws the home page. Could move this instead of clrDisplay to avoid repeating as it includes its own clrDisplay
 
   singleC_OP(0xaf);                  // Command to turn display ON
-
-  // HAVING PAGE SPACES CAUSES ISSUES? MAY HAVE BEEN THAT 2 WERE OVERLAPPING ON THE SAME PAGE
-
 }
-// Function to work out the size of a written word as on screen - in pixels
-// ADD SCROLLING MAX OPTIONS IS 8 RIGHT NOW
+
 void loop() {
-
-
 }

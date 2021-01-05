@@ -1,5 +1,4 @@
 #include <RTCZero.h>
-
 RTCZero rtc;                                          // Creates an object. Not sure how this works
 
 volatile uint8_t currentBtn = 0;                      // Which button was pressed? start on 0. THIS probably should not be global but also makes sense that it is
@@ -18,9 +17,9 @@ void homePage() {                                     // Draws the home page
   rtc.setSeconds(0);
 
   clrDisplay();                                       // This would run twice at the start which isn't ideal. Could move this function in its place? that is if we can write to ram like normal
-  writeText(0, 0, "S E T TIN G S");                   // Column, page, string. function should reflect its in page write mode
-  RMW(pageTable[currentBtn][0], currentBtn);          // 74 columns, 1st page, may need a start and end page actually. Could rename to INVERT. THIS one specifically highlights the top one
-  writeText(0, 1, "C L O C K");                       // Add a graphics mode. Should use the big array
+  writeText(0, 0, " SETTINGS");                        // Column, page, string. function should reflect its in page write mode
+  RMW(pageTable[currentBtn], currentBtn);             // 74 columns, 1st page, may need a start and end page actually. Could rename to INVERT. THIS one specifically highlights the top one
+  writeText(0, 1, " CLOCK");                           // Add a graphics mode. Should use the big array
 }
 
 String underTen(uint8_t seconds, uint8_t minutes, uint8_t hours) {
@@ -52,7 +51,7 @@ String underTen(uint8_t seconds, uint8_t minutes, uint8_t hours) {
 
 void clockApp() {
   clrDisplay();                                       // Clears the display
-  writeText(35, 1, "C L O C K");                      // Renders this page
+  writeText(35, 1, "CLOCK");                          // Renders this page
   // convert time to string
 
   while (currentApp == 1) {                           // OR something, needs to keep updating. This will be the app loop
